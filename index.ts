@@ -43,7 +43,7 @@ app.post('/sign-in', async (req, res) => {
     const { email, password } = req.body
     try {
         //@ts-ignore
-        const user = await prisma.user.findUnique({ where: { email: email } })
+        const user = await prisma.user.findUnique({ where: { email: email }, include: { orders: { include: { item: true } } } })
         //@ts-ignore
         const passwordMatches = bcrypt.compareSync(password, user.password)
         if (user && passwordMatches) {
